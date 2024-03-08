@@ -15,7 +15,7 @@ public class Animal {
     private String name;
     @Column(name = "animal_species",nullable = false)
     private String species;
-    @Column(name = "animal_breed",nullable = false)
+    @Column(name = "animal_breed")
     private String breed;
     @Column(name = "animal_gender",nullable = false)
     private String gender;

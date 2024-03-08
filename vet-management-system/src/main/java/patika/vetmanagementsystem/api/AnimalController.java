@@ -9,6 +9,7 @@ import patika.vetmanagementsystem.core.config.ModelMapper.IModelMapperService;
 import patika.vetmanagementsystem.core.result.Result;
 import patika.vetmanagementsystem.core.result.ResultData;
 import patika.vetmanagementsystem.core.utilies.ResultHelper;
+import patika.vetmanagementsystem.dao.AnimalRepo;
 import patika.vetmanagementsystem.dto.CursorResponse;
 import patika.vetmanagementsystem.dto.request.animal.AnimalUpdateRequest;
 import patika.vetmanagementsystem.dto.response.animal.AnimalResponse;

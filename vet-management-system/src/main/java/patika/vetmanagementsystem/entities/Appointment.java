@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "animal_id",columnDefinition = "serial")
+    @Column(name = "appointment_id",columnDefinition = "serial")
     private long id;
     @Temporal(TemporalType.DATE)
     @Column(name = "appointment_date",nullable = false)

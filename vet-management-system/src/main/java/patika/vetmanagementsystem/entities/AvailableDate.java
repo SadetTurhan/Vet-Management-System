@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class AvailableDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "animal_id",columnDefinition = "serial")
+    @Column(name = "available_date_id",columnDefinition = "serial")
     private long id;
     @Temporal(TemporalType.DATE)
     @Column(name = "available_date",nullable = false)
