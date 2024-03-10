@@ -25,7 +25,7 @@ public class Animal {
     @Column(name = "date_of_birth",nullable = false)
     private LocalDate dateOfBirth;
     @ManyToOne
-    @JoinColumn(name = "animal_customer_id",referencedColumnName = "customer_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     public Animal() {
     }

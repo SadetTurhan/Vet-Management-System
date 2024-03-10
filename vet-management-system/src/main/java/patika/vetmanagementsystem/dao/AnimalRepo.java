@@ -7,5 +7,5 @@ import patika.vetmanagementsystem.entities.Customer;
 import java.util.List;
 
 public interface AnimalRepo extends JpaRepository<Animal, Integer> {
-
+    List<Animal> findByCustomerId(int customerId);
 }

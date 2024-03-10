@@ -20,7 +20,7 @@ public class Customer {
     private String address;
     @Column(name = "customer_city")
     private String city;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animal;
     public Customer() {
     }

@@ -1,7 +1,7 @@
 package patika.vetmanagementsystem.entities;
 
 import jakarta.persistence.*;
-
+import java.util.List;
 @Entity
 @Table(name = "doctors")
 public class Doctor {
@@ -19,7 +19,6 @@ public class Doctor {
     private String address;
     @Column(name = "doctor_city")
     private String city;
-
     public Doctor() {
     }
 

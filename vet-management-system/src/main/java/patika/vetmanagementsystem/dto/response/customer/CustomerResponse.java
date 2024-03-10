@@ -1,6 +1,7 @@
 package patika.vetmanagementsystem.dto.response.customer;
 
 import jakarta.persistence.*;
+import patika.vetmanagementsystem.dto.response.animal.AnimalResponse;
 import patika.vetmanagementsystem.entities.Animal;
 
 import java.util.List;
@@ -82,4 +83,5 @@ public class CustomerResponse {
     public void setAnimalId(int animalId) {
         this.animalId = animalId;
     }
+
 }

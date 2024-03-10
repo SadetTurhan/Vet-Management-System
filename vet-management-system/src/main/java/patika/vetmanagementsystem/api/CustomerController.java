@@ -3,6 +3,7 @@ package patika.vetmanagementsystem.api;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import patika.vetmanagementsystem.business.abstracts.IAnimalService;
 import patika.vetmanagementsystem.business.abstracts.ICustomerService;
@@ -68,7 +69,7 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") int id){
-        this.customerService.delete(id);
+        this.customerService.deleteCustomer(id);
         return ResultHelper.ok();
     }
 }
