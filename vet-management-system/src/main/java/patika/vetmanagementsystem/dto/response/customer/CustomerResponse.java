@@ -14,7 +14,6 @@ public class CustomerResponse {
     private String address;
     private String city;
     private int animalId;
-
     public CustomerResponse() {
     }
 

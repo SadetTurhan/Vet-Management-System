@@ -2,7 +2,9 @@ package patika.vetmanagementsystem.api;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import patika.vetmanagementsystem.business.abstracts.IDoctorService;
 import patika.vetmanagementsystem.business.concretes.DoctorManager;
@@ -18,9 +20,11 @@ import patika.vetmanagementsystem.dto.request.doctor.DoctorUpdateRequest;
 import patika.vetmanagementsystem.dto.response.customer.CustomerResponse;
 import patika.vetmanagementsystem.dto.response.doctor.DoctorResponse;
 import patika.vetmanagementsystem.entities.Animal;
+import patika.vetmanagementsystem.entities.Appointment;
 import patika.vetmanagementsystem.entities.Customer;
 import patika.vetmanagementsystem.entities.Doctor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController

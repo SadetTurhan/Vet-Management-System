@@ -27,6 +27,7 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<AvailableDate> availableDates = new HashSet<>();
+
     public Doctor() {
     }
 
@@ -103,4 +104,5 @@ public class Doctor {
         availableDates.remove(availableDate);
         availableDate.setDoctor(null);
     }
+
 }

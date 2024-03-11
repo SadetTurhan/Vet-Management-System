@@ -2,6 +2,9 @@ package patika.vetmanagementsystem.dto.request.customer;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import patika.vetmanagementsystem.entities.Animal;
+
+import java.util.List;
 
 public class CustomerSaveRequest {
     @NotNull
@@ -22,7 +25,6 @@ public class CustomerSaveRequest {
     @NotNull
     @NotEmpty
     private int animalId;
-
     public CustomerSaveRequest() {
     }
 
@@ -82,4 +84,5 @@ public class CustomerSaveRequest {
     public void setAnimalId(int animalId) {
         this.animalId = animalId;
     }
+
 }

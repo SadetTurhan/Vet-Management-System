@@ -1,7 +1,10 @@
 package patika.vetmanagementsystem.entities;
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -22,6 +25,9 @@ public class Customer {
     private String city;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animal;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Appointment> appointments = new HashSet<>();
+
     public Customer() {
     }
 
