@@ -1,7 +1,9 @@
 package patika.vetmanagementsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,22 +25,23 @@ public class Customer {
     private String address;
     @Column(name = "customer_city")
     private String city;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Animal> animal;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Animal> animals = new ArrayList<>();
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Appointment> appointments = new HashSet<>();
 
     public Customer() {
     }
 
-    public Customer(int id, String name, String phone, String mail, String address, String city, List<Animal> animal) {
+    public Customer(int id, String name, String phone, String mail, String address, String city, List<Animal> animals) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.mail = mail;
         this.address = address;
         this.city = city;
-        this.animal = animal;
+        this.animals = animals;
     }
 
     public int getId() {
@@ -89,11 +92,19 @@ public class Customer {
         this.city = city;
     }
 
-    public List<Animal> getAnimal() {
-        return animal;
+    public List<Animal> getAnimals() {
+        return animals;
     }
 
-    public void setAnimal(List<Animal> animal) {
-        this.animal = animal;
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }

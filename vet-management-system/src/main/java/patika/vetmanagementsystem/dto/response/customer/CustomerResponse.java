@@ -13,18 +13,18 @@ public class CustomerResponse {
     private String mail;
     private String address;
     private String city;
-    private int animalId;
+    private List<Animal> animals;
     public CustomerResponse() {
     }
 
-    public CustomerResponse(int id, String name, String phone, String mail, String address, String city, int animalId) {
+    public CustomerResponse(int id, String name, String phone, String mail, String address, String city, List<Animal> animals) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.mail = mail;
         this.address = address;
         this.city = city;
-        this.animalId = animalId;
+        this.animals = animals;
     }
 
     public int getId() {
@@ -75,12 +75,11 @@ public class CustomerResponse {
         this.city = city;
     }
 
-    public int getAnimalId() {
-        return animalId;
+    public List<Animal> getAnimals() {
+        return animals;
     }
 
-    public void setAnimalId(int animalId) {
-        this.animalId = animalId;
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
     }
-
 }

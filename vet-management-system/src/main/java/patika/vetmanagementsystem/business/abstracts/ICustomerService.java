@@ -11,5 +11,5 @@ public interface ICustomerService {
     boolean delete(int id);
 
     void deleteCustomer(int customerId);
-
+    public Customer getCustomerByIdWithAnimals(int customerId);
 }

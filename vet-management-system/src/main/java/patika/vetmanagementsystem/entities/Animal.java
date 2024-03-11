@@ -1,5 +1,6 @@
 package patika.vetmanagementsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class Animal {
     private LocalDate dateOfBirth;
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
     public Animal() {
     }

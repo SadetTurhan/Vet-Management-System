@@ -36,14 +36,14 @@ public class CustomerController {
     public ResultData<CustomerResponse> save(@Valid @RequestBody CustomerSaveRequest customerSaveRequest){
         Customer saveCostumer = this.modelMapper.forRequest().map(customerSaveRequest, Customer.class);
         Animal animal = this.animalService.get(customerSaveRequest.getAnimalId());
-        saveCostumer.setAnimal((List<Animal>) animal);
+        saveCostumer.setAnimals((List<Animal>) animal);
         this.customerService.save(saveCostumer);
         return ResultHelper.created(this.modelMapper.forResponse().map(saveCostumer, CustomerResponse.class));
     }
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> get(@PathVariable("id") int id){
-        Customer customer = this.customerService.get(id);
+        Customer customer = this.customerService.getCustomerByIdWithAnimals(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(customer, CustomerResponse.class));
     }
     @GetMapping

@@ -37,7 +37,11 @@ public class CustomerManager implements ICustomerService {
     public Customer get(int id) {
         return this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
-
+    @Transactional
+    public Customer getCustomerByIdWithAnimals(int customerId) {
+        return customerRepo.findById(customerId)
+                .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+    }
     @Override
     public Page<Customer> cursor(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page,pageSize);
