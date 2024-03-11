@@ -1,7 +1,12 @@
 package patika.vetmanagementsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "doctors")
 public class Doctor {
@@ -19,6 +24,9 @@ public class Doctor {
     private String address;
     @Column(name = "doctor_city")
     private String city;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<AvailableDate> availableDates = new HashSet<>();
     public Doctor() {
     }
 
@@ -77,5 +85,22 @@ public class Doctor {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Set<AvailableDate> getAvailableDates() {
+        return availableDates;
+    }
+
+    public void setAvailableDates(Set<AvailableDate> availableDates) {
+        this.availableDates = availableDates;
+    }
+    public void addAvailableDate(AvailableDate availableDate) {
+        availableDates.add(availableDate);
+        availableDate.setDoctor(this);
+    }
+
+    public void removeAvailableDate(AvailableDate availableDate) {
+        availableDates.remove(availableDate);
+        availableDate.setDoctor(null);
     }
 }

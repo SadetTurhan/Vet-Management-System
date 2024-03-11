@@ -3,6 +3,8 @@ package patika.vetmanagementsystem.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "vaccines")
