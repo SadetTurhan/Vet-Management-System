@@ -2,7 +2,9 @@ package patika.vetmanagementsystem.api;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import patika.vetmanagementsystem.business.abstracts.IVaccineService;
 import patika.vetmanagementsystem.core.config.ModelMapper.IModelMapperService;
@@ -19,6 +21,9 @@ import patika.vetmanagementsystem.dto.response.vaccine.VaccineResponse;
 import patika.vetmanagementsystem.entities.Doctor;
 import patika.vetmanagementsystem.entities.Vaccine;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/vaccines")
 public class VaccineController {
@@ -29,17 +34,19 @@ public class VaccineController {
         this.vaccineService = vaccineService;
         this.modelMapper = modelMapper;
     }
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<VaccineResponse> save(@Valid @RequestBody VaccineSaveRequest vaccineSaveRequest){
-        Vaccine saveVaccine = this.modelMapper.forRequest().map(vaccineSaveRequest, Vaccine.class);
-        this.vaccineService.save(saveVaccine);
-        return ResultHelper.created(this.modelMapper.forResponse().map(saveVaccine, VaccineResponse.class));
+    @PostMapping
+    public ResponseEntity<Vaccine> save(@RequestBody Vaccine vaccine) {
+        boolean vaccineExists = vaccineService.isVaccineAlreadyExists(vaccine.getName(), vaccine.getCode(), vaccine.getProtectionFinishDate());
+        if (vaccineExists) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        Vaccine savedVaccine = vaccineService.save(vaccine);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedVaccine);
     }
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> get(@PathVariable("id") int id){
-        Vaccine vaccine = this.vaccineService.get(id);
+        Vaccine vaccine = this.vaccineService.get((long) id);
         return ResultHelper.success(this.modelMapper.forResponse().map(vaccine, VaccineResponse.class));
     }
     @GetMapping
@@ -57,7 +64,7 @@ public class VaccineController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> update(@Valid @RequestBody VaccineUpdateRequest vaccineUpdateRequest){
-        this.vaccineService.get(vaccineUpdateRequest.getId());
+        this.vaccineService.get((long) vaccineUpdateRequest.getId());
         Vaccine updateVaccine = this.modelMapper.forRequest().map(vaccineUpdateRequest,Vaccine.class);
         this.vaccineService.save(updateVaccine);
         return ResultHelper.success(this.modelMapper.forResponse().map(updateVaccine,VaccineResponse.class));
@@ -65,7 +72,19 @@ public class VaccineController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") int id){
-        this.vaccineService.delete(id);
+        this.vaccineService.delete((long) id);
         return ResultHelper.ok();
+    }
+    @GetMapping("/animal/{animalId}")
+    public ResponseEntity<List<Vaccine>> getVaccinesByAnimalId(@PathVariable Long animalId) {
+        List<Vaccine> vaccines = vaccineService.getVaccinesByAnimalId(animalId);
+        return ResponseEntity.ok(vaccines);
+    }
+    @GetMapping("/expiration")
+    public ResponseEntity<List<Vaccine>> getExpiringVaccines(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        List<Vaccine> vaccines = vaccineService.getVaccinesByProtectionFinishDateBetween(startDate, endDate);
+        return ResponseEntity.ok(vaccines);
     }
 }

@@ -58,6 +58,12 @@ public class CustomerController {
 
         return ResultHelper.cursor(customerResponsePage);
     }
+    @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Customer>> filterCustomersByName(@RequestParam String name) {
+        List<Customer> filteredCustomers = customerService.filterCustomersByName(name);
+        return ResponseEntity.ok(filteredCustomers);
+    }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> update(@Valid @RequestBody CustomerUpdateRequest customerUpdateRequest){
@@ -71,5 +77,10 @@ public class CustomerController {
     public Result delete(@PathVariable("id") int id){
         this.customerService.deleteCustomer(id);
         return ResultHelper.ok();
+    }
+    @GetMapping("/{customerId}/animals")
+    public ResponseEntity<List<Animal>> getAnimalsByCustomerId(@PathVariable Long customerId) {
+        List<Animal> animals = customerService.getAnimalsByCustomerId(Math.toIntExact(customerId));
+        return ResponseEntity.ok(animals);
     }
 }

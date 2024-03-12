@@ -14,7 +14,10 @@ import patika.vetmanagementsystem.dto.response.animal.AnimalResponse;
 import patika.vetmanagementsystem.dto.response.customer.CustomerResponse;
 import patika.vetmanagementsystem.entities.Animal;
 import patika.vetmanagementsystem.entities.Customer;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -42,6 +45,22 @@ public class CustomerManager implements ICustomerService {
         return customerRepo.findById(customerId)
                 .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
+
+    @Override
+    public List<Customer> filterCustomersByName(String name) {
+        return customerRepo.findByNameContaining(name);
+    }
+
+    @Override
+    public List<Animal> getAnimalsByCustomerId(int customerId) {
+        Optional<Customer> customerOptional = customerRepo.findById(customerId);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            return customer.getAnimals();
+        }
+        return Collections.emptyList();
+    }
+
     @Override
     public Page<Customer> cursor(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page,pageSize);

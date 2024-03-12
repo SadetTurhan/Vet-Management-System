@@ -21,16 +21,20 @@ public class Appointment {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "appointment_date",nullable = false)
-    private LocalDate appointmentDate;
-
+    private LocalDateTime appointmentDate;
+    @ManyToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
     public Appointment() {
     }
 
-    public Appointment(long id, Doctor doctor, Customer customer, LocalDate appointmentDate) {
+    public Appointment(long id, Doctor doctor, Customer customer, LocalDateTime appointmentDate, Doctor doctor1, Animal animal) {
         this.id = id;
         this.doctor = doctor;
         this.customer = customer;
         this.appointmentDate = appointmentDate;
+        this.doctor = doctor1;
+        this.animal = animal;
     }
 
     public long getId() {
@@ -41,14 +45,6 @@ public class Appointment {
         this.id = id;
     }
 
-    public LocalDate getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(LocalDate appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
     public Doctor getDoctor() {
         return doctor;
     }
@@ -57,11 +53,27 @@ public class Appointment {
         this.doctor = doctor;
     }
 
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public LocalDateTime getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDateTime appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 }

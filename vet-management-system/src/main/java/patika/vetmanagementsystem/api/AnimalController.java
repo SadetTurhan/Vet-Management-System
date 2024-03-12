@@ -3,6 +3,7 @@ package patika.vetmanagementsystem.api;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import patika.vetmanagementsystem.business.abstracts.IAnimalService;
 import patika.vetmanagementsystem.core.config.ModelMapper.IModelMapperService;
@@ -14,6 +15,7 @@ import patika.vetmanagementsystem.dto.CursorResponse;
 import patika.vetmanagementsystem.dto.request.animal.AnimalUpdateRequest;
 import patika.vetmanagementsystem.dto.response.animal.AnimalResponse;
 import patika.vetmanagementsystem.entities.Animal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/animals")
@@ -48,6 +50,11 @@ public class AnimalController {
                 .map(animal -> this.modelMapper.forResponse().map(animal,AnimalResponse.class));
 
         return ResultHelper.cursor(animalResponsePage);
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<List<Animal>> filterCustomersByName(@RequestParam String name) {
+        List<Animal> filteredAnimals = animalService.filterAnimalsByName(name);
+        return ResponseEntity.ok(filteredAnimals);
     }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)

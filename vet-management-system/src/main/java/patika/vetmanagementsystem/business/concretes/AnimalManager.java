@@ -10,6 +10,8 @@ import patika.vetmanagementsystem.core.utilies.Msg;
 import patika.vetmanagementsystem.dao.AnimalRepo;
 import patika.vetmanagementsystem.entities.Animal;
 
+import java.util.List;
+
 @Service
 public class AnimalManager implements IAnimalService {
     private final AnimalRepo animalRepo;
@@ -39,6 +41,11 @@ public class AnimalManager implements IAnimalService {
         Animal animal = this.get(id);
         this.animalRepo.delete(animal);
         return true;
+    }
+
+    @Override
+    public List<Animal> filterAnimalsByName(String name) {
+        return animalRepo.findByNameContaining(name);
     }
 
 }

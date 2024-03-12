@@ -2,7 +2,8 @@ package patika.vetmanagementsystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDate;
 
 @Entity
@@ -29,10 +30,15 @@ public class Animal {
     @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Vaccine> vaccines = new ArrayList<>();
     public Animal() {
     }
 
-    public Animal(long id, String name, String species, String breed, String gender, String colour, LocalDate dateOfBirth, Customer customer) {
+    public Animal(long id, String name, String species,
+                  String breed, String gender, String colour,
+                  LocalDate dateOfBirth, Customer customer,List<Vaccine> vaccines) {
         this.id = id;
         this.name = name;
         this.species = species;
@@ -41,6 +47,7 @@ public class Animal {
         this.colour = colour;
         this.dateOfBirth = dateOfBirth;
         this.customer = customer;
+        this.vaccines = vaccines;
     }
 
     public long getId() {
@@ -105,5 +112,13 @@ public class Animal {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Vaccine> getVaccines() {
+        return vaccines;
+    }
+
+    public void setVaccines(List<Vaccine> vaccines) {
+        this.vaccines = vaccines;
     }
 }

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface AnimalRepo extends JpaRepository<Animal, Integer> {
     List<Animal> findByCustomerId(int customerId);
+    List<Animal> findByNameContaining(String name);
 }
