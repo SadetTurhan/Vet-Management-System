@@ -58,12 +58,6 @@ public class CustomerController {
 
         return ResultHelper.cursor(customerResponsePage);
     }
-    @GetMapping("/filter")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Customer>> filterCustomersByName(@RequestParam String name) {
-        List<Customer> filteredCustomers = customerService.filterCustomersByName(name);
-        return ResponseEntity.ok(filteredCustomers);
-    }
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> update(@Valid @RequestBody CustomerUpdateRequest customerUpdateRequest){
@@ -78,9 +72,17 @@ public class CustomerController {
         this.customerService.deleteCustomer(id);
         return ResultHelper.ok();
     }
+    //filtering by customer to get animals associated with specific costumer
     @GetMapping("/{customerId}/animals")
     public ResponseEntity<List<Animal>> getAnimalsByCustomerId(@PathVariable Long customerId) {
         List<Animal> animals = customerService.getAnimalsByCustomerId(Math.toIntExact(customerId));
         return ResponseEntity.ok(animals);
+    }
+    //filtering by animal name: write /filter?name=Ahmet
+    @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Customer>> filterCustomersByName(@RequestParam String name) {
+        List<Customer> filteredCustomers = customerService.filterCustomersByName(name);
+        return ResponseEntity.ok(filteredCustomers);
     }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class AnimalController {
     private final IAnimalService animalService;
     private final IModelMapperService modelMapper;
+
     public AnimalController(IAnimalService animalService, IModelMapperService modelMapper) {
         this.animalService = animalService;
         this.modelMapper = modelMapper;
@@ -51,6 +52,8 @@ public class AnimalController {
 
         return ResultHelper.cursor(animalResponsePage);
     }
+
+    //filtering by animal name: write /filter?name=pamuk
     @GetMapping("/filter")
     public ResponseEntity<List<Animal>> filterCustomersByName(@RequestParam String name) {
         List<Animal> filteredAnimals = animalService.filterAnimalsByName(name);

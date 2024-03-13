@@ -1,9 +1,13 @@
 package patika.vetmanagementsystem.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import patika.vetmanagementsystem.entities.AvailableDate;
-import java.util.List;
 
+import java.time.LocalDate;
+import java.util.List;
+@Repository
 public interface AvailableDateRepo extends JpaRepository<AvailableDate,Long> {
-    List<AvailableDate> findByDoctorId(long doctorId);
+    List<AvailableDate> findByDoctorId(Long doctorId);
+    List<AvailableDate>  findByDoctorIdAndAvailableDate(Long doctorId, LocalDate availableDate);
 }

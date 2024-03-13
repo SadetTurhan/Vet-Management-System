@@ -3,9 +3,8 @@ package patika.vetmanagementsystem.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "doctors")
@@ -24,20 +23,20 @@ public class Doctor {
     private String address;
     @Column(name = "doctor_city")
     private String city;
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Set<AvailableDate> availableDates = new HashSet<>();
-
+    private List<AvailableDate> availableDates = new ArrayList<>();
     public Doctor() {
     }
 
-    public Doctor(long id, String name, String phone, String mail, String address, String city) {
+    public Doctor(long id, String name, String phone, String mail, String address, String city, List<AvailableDate> availableDates) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.mail = mail;
         this.address = address;
         this.city = city;
+        this.availableDates = availableDates;
     }
 
     public long getId() {
@@ -88,13 +87,14 @@ public class Doctor {
         this.city = city;
     }
 
-    public Set<AvailableDate> getAvailableDates() {
+    public List<AvailableDate> getAvailableDates() {
         return availableDates;
     }
 
-    public void setAvailableDates(Set<AvailableDate> availableDates) {
+    public void setAvailableDates(List<AvailableDate> availableDates) {
         this.availableDates = availableDates;
     }
+
     public void addAvailableDate(AvailableDate availableDate) {
         availableDates.add(availableDate);
         availableDate.setDoctor(this);

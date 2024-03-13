@@ -9,7 +9,7 @@ import patika.vetmanagementsystem.core.exception.NotFoundException;
 import patika.vetmanagementsystem.core.utilies.Msg;
 import patika.vetmanagementsystem.dao.DoctorRepo;
 import patika.vetmanagementsystem.entities.Doctor;
-
+import java.util.List;
 
 @Service
 public class DoctorManager implements IDoctorService {
@@ -28,7 +28,10 @@ public class DoctorManager implements IDoctorService {
     public Doctor get(int id) {
         return this.doctorRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
-
+    @Override
+    public List<Doctor> getAll() {
+        return doctorRepo.findAll();
+    }
     @Override
     public Page<Doctor> cursor(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page,pageSize);

@@ -1,6 +1,7 @@
 package patika.vetmanagementsystem.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 @Entity
@@ -10,12 +11,12 @@ public class AvailableDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "available_date_id",columnDefinition = "serial")
     private long id;
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
     @Temporal(TemporalType.DATE)
     @Column(name = "available_date",nullable = false)
     private LocalDate availableDate;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
     public AvailableDate() {
     }

@@ -9,9 +9,7 @@ import patika.vetmanagementsystem.entities.Doctor;
 import java.time.LocalDate;
 
 public class AvailableDateSaveRequest {
-    @NotNull
-    @NotEmpty
-    private Doctor doctor;
+
     @NotNull
     @NotEmpty
     private LocalDate availableDate;
@@ -19,17 +17,8 @@ public class AvailableDateSaveRequest {
     public AvailableDateSaveRequest() {
     }
 
-    public AvailableDateSaveRequest(Doctor doctor, LocalDate availableDate) {
-        this.doctor = doctor;
+    public AvailableDateSaveRequest( LocalDate availableDate) {
         this.availableDate = availableDate;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     public LocalDate getAvailableDate() {

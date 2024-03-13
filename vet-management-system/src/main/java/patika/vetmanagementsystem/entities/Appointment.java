@@ -1,5 +1,6 @@
 package patika.vetmanagementsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -12,17 +13,21 @@ public class Appointment {
     @Column(name = "appointment_id",columnDefinition = "serial")
     private long id;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @Column(name = "appointment_date",nullable = false)
     private LocalDateTime appointmentDate;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "animal_id")
     private Animal animal;
     public Appointment() {

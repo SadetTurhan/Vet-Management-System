@@ -1,48 +1,67 @@
 package patika.vetmanagementsystem.api;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import patika.vetmanagementsystem.business.concretes.AvailableDateManager;
+import patika.vetmanagementsystem.business.abstracts.IAvailableDateService;
+import patika.vetmanagementsystem.core.exception.NotFoundException;
 import patika.vetmanagementsystem.dao.AvailableDateRepo;
+import patika.vetmanagementsystem.dao.DoctorRepo;
 import patika.vetmanagementsystem.dto.request.availableDate.AvailableDateSaveRequest;
 import patika.vetmanagementsystem.entities.AvailableDate;
+import patika.vetmanagementsystem.entities.Doctor;
+
+import java.time.LocalDate;
 import java.util.List;
+
 @RestController
-@RequestMapping("/api/available-dates")
+@RequestMapping("/doctors/{doctorId}/available-dates")
 public class AvailableDateController {
-
-    private final AvailableDateManager availableDateManager;
-
-    public AvailableDateController(AvailableDateManager availableDateManager) {
-        this.availableDateManager = availableDateManager;
+    @Autowired
+    private final IAvailableDateService availableDateService;
+    @Autowired
+    private final AvailableDateRepo availableDateRepo;
+    @Autowired
+    private final DoctorRepo doctorRepo;
+    public AvailableDateController(IAvailableDateService availableDateService, AvailableDateRepo availableDateRepo, DoctorRepo doctorRepo) {
+        this.availableDateService = availableDateService;
+        this.availableDateRepo = availableDateRepo;
+        this.doctorRepo = doctorRepo;
     }
 
-    @GetMapping("/doctor/{doctorId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AvailableDate>> getAvailableDatesByDoctor(@PathVariable long doctorId) {
-        List<AvailableDate> availableDates = availableDateManager.getAvailableDatesByDoctorId(doctorId);
+    @GetMapping()
+    public ResponseEntity<List<AvailableDate>> getAvailableDatesByDoctor(@PathVariable Long doctorId) {
+        List<AvailableDate> availableDates = availableDateService.getAvailableDatesByDoctor(doctorId);
         return ResponseEntity.ok(availableDates);
     }
-
-    @PostMapping("/doctor/{doctorId}")
-    public ResponseEntity<AvailableDate> addAvailableDate(
-            @PathVariable long doctorId,
-            @RequestBody AvailableDateSaveRequest request) {
-        AvailableDate newDate = new AvailableDate();
-        // Set date and other properties from the request
-        newDate.setAvailableDate(request.getAvailableDate());
-        // Add any other properties as needed
-
-        AvailableDate savedDate = availableDateManager.addAvailableDate((int) doctorId, newDate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedDate);
-    }
-
     @DeleteMapping("/{availableDateId}")
-    public ResponseEntity<Void> removeAvailableDate(@PathVariable long availableDateId) {
-        availableDateManager.removeAvailableDate(availableDateId);
+    public ResponseEntity<Void> deleteAvailableDate(@PathVariable Long availableDateId) {
+        availableDateService.deleteAvailableDate(availableDateId);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping()
+    public ResponseEntity<AvailableDate> addAvailableDate(@PathVariable Long doctorId, @RequestBody AvailableDateSaveRequest request) {
+        Doctor doctor = doctorRepo.findById(Math.toIntExact(doctorId))
+                .orElseThrow(() -> new NotFoundException("Doctor not found with id: " + doctorId));
 
-    // Other API endpoints as needed
+        AvailableDate availableDate = new AvailableDate();
+        availableDate.setAvailableDate(request.getAvailableDate());
+        availableDate.setDoctor(doctor);
+
+        AvailableDate newAvailableDate = availableDateService.addAvailableDate(availableDate);
+        return ResponseEntity.ok(newAvailableDate);
+    }
+    @PutMapping("/{availableDateId}")
+    public ResponseEntity<AvailableDate> updateAvailableDate(@PathVariable Long doctorId, @PathVariable Long availableDateId, @RequestBody AvailableDateSaveRequest request) {
+        Doctor doctor = doctorRepo.findById(Math.toIntExact(doctorId))
+                .orElseThrow(() -> new NotFoundException("Doctor not found with id: " + doctorId));
+
+        AvailableDate availableDate = availableDateRepo.findById(availableDateId)
+                .orElseThrow(() -> new NotFoundException("AvailableDate not found with id: " + availableDateId));
+        availableDate.setAvailableDate(availableDate.getAvailableDate());
+        availableDate.setDoctor(doctor);
+
+        AvailableDate updatedAvailableDate = availableDateRepo.save(availableDate);
+        return ResponseEntity.ok(updatedAvailableDate);
+    }
 }
