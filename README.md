@@ -43,5 +43,6 @@ The **Veterinary Management System** is an API designed to streamline the operat
 
 Contributions to the Veterinary Management System project are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
 
+##
+![sonSS](https://github.com/SadetTurhan/Vet-Management-System/assets/57369165/ab859068-be58-4bc0-84a0-338fc31d6443)
 
-![UMLCHARTvetSystem](https://github.com/SadetTurhan/Vet-Management-System/assets/57369165/c133e04f-c0df-4a5b-8b36-85c885ca10a5)
