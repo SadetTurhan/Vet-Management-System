@@ -26,6 +26,7 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<AvailableDate> availableDates = new ArrayList<>();
+
     public Doctor() {
     }
 

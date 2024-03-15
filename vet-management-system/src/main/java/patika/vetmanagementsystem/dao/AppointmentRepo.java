@@ -8,5 +8,4 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Integer> {
-
 }

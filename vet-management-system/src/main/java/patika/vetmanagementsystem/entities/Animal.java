@@ -33,6 +33,7 @@ public class Animal {
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Vaccine> vaccines = new ArrayList<>();
+
     public Animal() {
     }
 

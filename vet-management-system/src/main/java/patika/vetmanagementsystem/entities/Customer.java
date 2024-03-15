@@ -28,9 +28,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Animal> animals = new ArrayList<>();
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Set<Appointment> appointments = new HashSet<>();
-
     public Customer() {
     }
 
@@ -100,11 +97,4 @@ public class Customer {
         this.animals = animals;
     }
 
-    public Set<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(Set<Appointment> appointments) {
-        this.appointments = appointments;
-    }
 }

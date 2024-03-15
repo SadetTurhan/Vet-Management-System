@@ -6,19 +6,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import patika.vetmanagementsystem.business.abstracts.IAnimalService;
 import patika.vetmanagementsystem.business.abstracts.IVaccineService;
 import patika.vetmanagementsystem.core.config.ModelMapper.IModelMapperService;
 import patika.vetmanagementsystem.core.result.Result;
 import patika.vetmanagementsystem.core.result.ResultData;
 import patika.vetmanagementsystem.core.utilies.ResultHelper;
 import patika.vetmanagementsystem.dto.CursorResponse;
-import patika.vetmanagementsystem.dto.request.doctor.DoctorSaveRequest;
-import patika.vetmanagementsystem.dto.request.doctor.DoctorUpdateRequest;
 import patika.vetmanagementsystem.dto.request.vaccine.VaccineSaveRequest;
 import patika.vetmanagementsystem.dto.request.vaccine.VaccineUpdateRequest;
-import patika.vetmanagementsystem.dto.response.doctor.DoctorResponse;
 import patika.vetmanagementsystem.dto.response.vaccine.VaccineResponse;
-import patika.vetmanagementsystem.entities.Doctor;
+import patika.vetmanagementsystem.entities.Animal;
 import patika.vetmanagementsystem.entities.Vaccine;
 
 import java.time.LocalDate;
@@ -28,20 +26,31 @@ import java.util.List;
 @RequestMapping("/v1/vaccines")
 public class VaccineController {
     private final IVaccineService vaccineService;
+    private final IAnimalService animalService;
     private final IModelMapperService modelMapper;
 
-    public VaccineController(IVaccineService vaccineService, IModelMapperService modelMapper) {
+    public VaccineController(IVaccineService vaccineService, IAnimalService animalService, IModelMapperService modelMapper) {
         this.vaccineService = vaccineService;
+        this.animalService = animalService;
         this.modelMapper = modelMapper;
     }
     @PostMapping
-    public ResponseEntity<Vaccine> save(@RequestBody Vaccine vaccine) {
-        boolean vaccineExists = vaccineService.isVaccineAlreadyExists(vaccine.getName(), vaccine.getCode(), vaccine.getProtectionFinishDate());
-        if (vaccineExists) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    public ResponseEntity<Vaccine> save(@Valid @RequestBody VaccineSaveRequest vaccineSaveRequest) {
+        // VaccineSaveRequest'ten Vaccine nesnesine dönüştürme
+        Vaccine vaccine = modelMapper.forRequest().map(vaccineSaveRequest, Vaccine.class);
+
+        // Vaccine nesnesine ilişkili Animal'ı atanması
+        Animal animal = animalService.get(vaccineSaveRequest.getAnimalId()); // Animal'ın id'siyle Animal nesnesini alınması
+        vaccine.setAnimal(animal); // Vaccine nesnesine Animal'ın atanması
+
+        // Vaccine'nin kaydedilmesi
         Vaccine savedVaccine = vaccineService.save(vaccine);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedVaccine);
+
+        if (savedVaccine != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedVaccine);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

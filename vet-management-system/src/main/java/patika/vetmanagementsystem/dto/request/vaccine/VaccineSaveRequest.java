@@ -1,8 +1,5 @@
 package patika.vetmanagementsystem.dto.request.vaccine;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,20 +13,21 @@ public class VaccineSaveRequest {
     @NotEmpty
     private String code;
     @NotNull
-    @NotEmpty
     private LocalDate protectionStartDate;
     @NotNull
-    @NotEmpty
     private LocalDate protectionFinishDate;
+    @NotNull
+    private Long animalId;
 
     public VaccineSaveRequest() {
     }
 
-    public VaccineSaveRequest(String name, String code, LocalDate protectionStartDate, LocalDate protectionFinishDate) {
+    public VaccineSaveRequest(String name, String code, LocalDate protectionStartDate, LocalDate protectionFinishDate,Long animalId) {
         this.name = name;
         this.code = code;
         this.protectionStartDate = protectionStartDate;
         this.protectionFinishDate = protectionFinishDate;
+        this.animalId = animalId;
     }
 
     public String getName() {
@@ -62,5 +60,13 @@ public class VaccineSaveRequest {
 
     public void setProtectionFinishDate(LocalDate protectionFinishDate) {
         this.protectionFinishDate = protectionFinishDate;
+    }
+
+    public int getAnimalId() {
+        return Math.toIntExact(animalId);
+    }
+
+    public void setAnimalId(Long animalId) {
+        this.animalId = animalId;
     }
 }

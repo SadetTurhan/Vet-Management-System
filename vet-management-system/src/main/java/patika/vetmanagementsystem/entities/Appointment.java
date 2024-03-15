@@ -8,79 +8,35 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "appointments")
 public class Appointment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointment_id", columnDefinition = "serial")
-    private long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+        @Column(name = "appointment_date", nullable = false)
+        private LocalDateTime appointmentDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonIgnore
-    @Column(name = "appointment_date", nullable = false)
-    private LocalDateTime appointmentDate;
+        public Appointment() {
+        }
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
+        public Appointment(Long id, LocalDateTime appointmentDate) {
+            this.id = id;
+            this.appointmentDate = appointmentDate;
+        }
 
-    public Appointment() {
-    }
+        public Long getId() {
+            return id;
+        }
 
-    public Appointment(long id, Doctor doctor, Customer customer, LocalDateTime appointmentDate, Animal animal) {
-        this.id = id;
-        this.doctor = doctor;
-        this.customer = customer;
-        this.appointmentDate = appointmentDate;
-        this.animal = animal;
-    }
+        public void setId(Long id) {
+            this.id = id;
+        }
 
-    public long getId() {
-        return id;
-    }
+        public LocalDateTime getAppointmentDate() {
+            return appointmentDate;
+        }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public Animal getAnimal() {
-        return animal;
-    }
-
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public LocalDateTime getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(LocalDateTime appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
+        public void setAppointmentDate(LocalDateTime appointmentDate) {
+            this.appointmentDate = appointmentDate;
+        }
 }
