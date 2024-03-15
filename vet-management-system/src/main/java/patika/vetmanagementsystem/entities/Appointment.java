@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointment_id",columnDefinition = "serial")
+    @Column(name = "appointment_id", columnDefinition = "serial")
     private long id;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "doctor_id", nullable = false)
@@ -24,21 +25,22 @@ public class Appointment {
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
-    @Column(name = "appointment_date",nullable = false)
+    @Column(name = "appointment_date", nullable = false)
     private LocalDateTime appointmentDate;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "animal_id")
     private Animal animal;
+
     public Appointment() {
     }
 
-    public Appointment(long id, Doctor doctor, Customer customer, LocalDateTime appointmentDate, Doctor doctor1, Animal animal) {
+    public Appointment(long id, Doctor doctor, Customer customer, LocalDateTime appointmentDate, Animal animal) {
         this.id = id;
         this.doctor = doctor;
         this.customer = customer;
         this.appointmentDate = appointmentDate;
-        this.doctor = doctor1;
         this.animal = animal;
     }
 

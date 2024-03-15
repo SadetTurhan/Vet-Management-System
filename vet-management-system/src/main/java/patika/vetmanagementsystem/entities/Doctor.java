@@ -96,13 +96,17 @@ public class Doctor {
     }
 
     public void addAvailableDate(AvailableDate availableDate) {
-        availableDates.add(availableDate);
-        availableDate.setDoctor(this);
+        if (availableDate != null) {
+            availableDates.add(availableDate);
+            availableDate.setDoctor(this);
+        }
     }
 
     public void removeAvailableDate(AvailableDate availableDate) {
-        availableDates.remove(availableDate);
-        availableDate.setDoctor(null);
+        if (availableDate != null) {
+            availableDates.remove(availableDate);
+            availableDate.setDoctor(null);
+        }
     }
-
 }
+
